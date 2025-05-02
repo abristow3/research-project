@@ -18,7 +18,6 @@ class TempHumidity:
                 'temperature': temperature,
                 'humidity': humidity
             }
-            print("SDATA", sensor_data)
 
             # print for logging
             print(f"Temp: {temperature:.1f}°C  |  Humidity: {humidity:.1f}%")
