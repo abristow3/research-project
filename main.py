@@ -16,6 +16,8 @@ if __name__ == '__main__':
     temp_humidity = TempHumidity()
     ph = Ph()
 
+    # TODO Load our ML Model
+
     while True:
         # Get sensor readings
         temp_humid_reading = temp_humidity.get_reading()
@@ -38,5 +40,5 @@ if __name__ == '__main__':
 
         data_handler.write_data_entry(data=entry)
 
-        # Sleep 8 hours in seconds
-        time.sleep(28800)
+        # Sleep 24 hours in seconds
+        time.sleep(86400)
