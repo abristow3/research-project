@@ -40,5 +40,8 @@ if __name__ == '__main__':
 
         data_handler.write_data_entry(data=entry)
 
+        # TODO if it was yellow, run a model on the data and test if it was due to envinromental factors or not
+
+
         # Sleep 24 hours in seconds
         time.sleep(86400)
