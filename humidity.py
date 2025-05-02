@@ -11,8 +11,6 @@ class TempHumidity:
         # Humidity data is in percentage (50.0)
         humidity, temperature = Adafruit_DHT.read_retry(self.sensor, self.sensor_pin)
 
-        sensor_data = {}
-
         if humidity is not None and temperature is not None:
             # Create dict with data points
             sensor_data = {
@@ -25,4 +23,4 @@ class TempHumidity:
             return sensor_data
         else:
             print("Invalid data: Temperature or Humidity is None.")
-            return sensor_data
+            raise Exception("Invalid Sensor Reading")
