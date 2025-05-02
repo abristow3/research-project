@@ -10,8 +10,13 @@ class Moisture:
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(self.sensor_pin, GPIO.IN)
 
-    def get_moisture_reading(self):
+    def get_moisture_reading(self) -> int:
+        # Returns a 1 if the soil is wet
+        # Returns a 0 if the soil is dry
+
         if GPIO.input(self.sensor_pin) == GPIO.LOW:
             print("Soil is wet")
+            return 1
         else:
             print("Soil is dry")
+            return 0

@@ -1,24 +1,28 @@
+from typing import Dict, Any
+
 import Adafruit_DHT
 import time
 
-# Sensor type and GPIO setup
-SENSOR = Adafruit_DHT.DHT22
-GPIO_PIN = 19  # GPIO27 is physical pin 35
 
-print("Reading DHT22 sensor on GPIO27 (Pin 35)...")
+class TempHumidity:
+    def __init__(self):
+        self.sensor = Adafruit_DHT.DHT22
+        self.sensor_pin = 19  # GPIO19 is physical pin 35
 
-try:
-    while True:
-        humidity, temperature = Adafruit_DHT.read_retry(SENSOR, GPIO_PIN)
-        
+    def get_reading(self) -> dict[str, Any] | None:
+        humidity, temperature = Adafruit_DHT.read_retry(self.sensor, self.sensor_pin)
+
         if humidity is not None and temperature is not None:
+            # Create dict with data points
+            sensor_data = {
+                'temperature': temperature,
+                'humidity': humidity
+            }
+            print("SDATA", sensor_data)
+
+            # print for logging
             print(f"Temp: {temperature:.1f}°C  |  Humidity: {humidity:.1f}%")
+            return sensor_data
         else:
-            print("Sensor read failed. Trying again...")
-
-        time.sleep(2)
-
-except KeyboardInterrupt:
-    print("\nStopped by user.")
-
-
+            print("Invalid data: Temperature or Humidity is None.")
+            return None
