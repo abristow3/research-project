@@ -64,6 +64,3 @@ class DataHandler:
                     timestamp, ph, temperature, soil_moisture, humidity, yellowing, image_name
                 ])
             print(f"data written for timestamp {timestamp}")
-
-    def read_data_entry(self):
-        ...

@@ -43,34 +43,33 @@ class YellowDetector:
         # return percentage of yellowing detected in image
         return yellow_percentage
 
-
-if __name__ == "__main__":
-    yellow_detector = YellowDetector()
-    yellowing = 0
-    count = 0
-    ycount = 0
-    for filename in os.listdir("archive2/BPLD/yellow mosaic"):
-        count += 1
-        yellow_percentage = yellow_detector.detect_yellowing(f"archive2/BPLD/yellow mosaic/{filename}")
-
-        if yellow_percentage >= 15:
-            ycount += 1
-            yellowing = 1
-
-    print(f"{count} Test Images | {ycount} Detections at 20% threshold")
-    print(f"{ycount / count * 100}")
-
-    yellowing = 0
-    count = 0
-    ycount = 0
-
-    for filename in os.listdir("archive2/BPLD/healthy"):
-        count += 1
-        yellow_percentage = yellow_detector.detect_yellowing(f"archive2/BPLD/healthy/{filename}")
-
-        if yellow_percentage >= 15:
-            ycount += 1
-            yellowing = 1
-
-    print(f"{count} Test Images | {ycount} Detections at 20% threshold")
-    print(f"{ycount / count * 100}")
+# if __name__ == "__main__":
+#     yellow_detector = YellowDetector()
+#     yellowing = 0
+#     count = 0
+#     ycount = 0
+#     for filename in os.listdir("archive2/BPLD/yellow mosaic"):
+#         count += 1
+#         yellow_percentage = yellow_detector.detect_yellowing(f"archive2/BPLD/yellow mosaic/{filename}")
+#
+#         if yellow_percentage >= 15:
+#             ycount += 1
+#             yellowing = 1
+#
+#     print(f"{count} Test Images | {ycount} Detections at 20% threshold")
+#     print(f"{ycount / count * 100}")
+#
+#     yellowing = 0
+#     count = 0
+#     ycount = 0
+#
+#     for filename in os.listdir("archive2/BPLD/healthy"):
+#         count += 1
+#         yellow_percentage = yellow_detector.detect_yellowing(f"archive2/BPLD/healthy/{filename}")
+#
+#         if yellow_percentage >= 15:
+#             ycount += 1
+#             yellowing = 1
+#
+#     print(f"{count} Test Images | {ycount} Detections at 20% threshold")
+#     print(f"{ycount / count * 100}")

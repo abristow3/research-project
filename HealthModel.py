@@ -241,23 +241,20 @@ class HealthModel:
         print("NOT OPTIMAL")
         return False  # The conditions are not optimal
 
-
-# Main program execution
-if __name__ == '__main__':
-    # Instantiate the HealthModel
-    health_model = HealthModel()
-
-    optimal_entry = {
-        'timestamp': datetime.now(),
-        'temperature': 22,
-        'humidity': 70,
-        'moisture': 1,
-        'ph': 7,
-        'yellowing': 1
-    }
-
-    disease_detected = health_model.predict_disease(entry=optimal_entry)
-
-    print(disease_detected)
-    if disease_detected:
-        print("DISEASE DETECTED")
+# if __name__ == '__main__':
+#     health_model = HealthModel()
+#
+#     optimal_entry = {
+#         'timestamp': datetime.now(),
+#         'temperature': 22,
+#         'humidity': 70,
+#         'moisture': 1,
+#         'ph': 7,
+#         'yellowing': 1
+#     }
+#
+#     disease_detected = health_model.predict_disease(entry=optimal_entry)
+#
+#     print(disease_detected)
+#     if disease_detected:
+#         print("DISEASE DETECTED")
