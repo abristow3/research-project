@@ -59,7 +59,7 @@ class DataHandler:
             yellowing = entry['yellowing']
 
             # Open CSV file in append mode
-            with open(self.data_file_name, mode='a', newline='') as file:
+            with open(f"{self.data_folder}/{self.data_file_name}", mode='a', newline='') as file:
                 writer = csv.writer(file)
                 # Write the data as a new row
                 writer.writerow([
