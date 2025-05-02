@@ -3,9 +3,13 @@ from moisture import Moisture
 from humidity import TempHumidity
 from ph import Ph
 from data_handler import DataHandler
+from YellowDetector import YellowDetector
+import os
 
 if __name__ == '__main__':
     data_handler = DataHandler()
+    yellow_detector = YellowDetector()
+
     camera = Camera()
     moisture = Moisture()
     temp_humidity = TempHumidity()
@@ -19,9 +23,21 @@ if __name__ == '__main__':
     # Take photo
     image_filename = camera.take_photo()
 
-    # TODO setup yellowing from image processing. Yellowing should be a 1 if present or 0 if not
+    yellowing = 0
+    count = 0
+    ycount = 0
+    for filename in os.listdir("archive2/BPLD/yellow mosaic"):
+        count += 1
+        yellow_percentage = yellow_detector.detect_yellowing(f"archive2/BPLD/yellow mosaic/{filename}")
+
+        if yellow_percentage >= 20:
+            ycount += 1
+            yellowing = 1
+
+    print(f"{count} Test Images | {ycount} Detections at 20% threshold")
+
     entry = data_handler.create_data_entry(temperature=temp_humid_reading['temperature'], moisture=moisture_reading,
                                            humidity=temp_humid_reading['humidity'], ph=ph_reading,
-                                           image_name=image_filename, yellowing=1)
+                                           image_name=image_filename, yellowing=yellowing)
 
     data_handler.write_data_entry(data=entry)
