@@ -1,7 +1,4 @@
-from typing import Dict, Any
-
 import Adafruit_DHT
-import time
 
 
 class TempHumidity:
@@ -9,8 +6,12 @@ class TempHumidity:
         self.sensor = Adafruit_DHT.DHT22
         self.sensor_pin = 19  # GPIO19 is physical pin 35
 
-    def get_reading(self)->dict:
+    def get_reading(self) -> dict:
+        # Temperature data is in Celcius (22.0)
+        # Humidity data is in percentage (50.0)
         humidity, temperature = Adafruit_DHT.read_retry(self.sensor, self.sensor_pin)
+
+        sensor_data = {}
 
         if humidity is not None and temperature is not None:
             # Create dict with data points
@@ -24,4 +25,4 @@ class TempHumidity:
             return sensor_data
         else:
             print("Invalid data: Temperature or Humidity is None.")
-            return {}
+            return sensor_data
