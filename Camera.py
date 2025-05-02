@@ -24,13 +24,13 @@ class Camera:
     def take_photo(self) -> str:
         # Wait for camera to warm up
         if not self.camera.isOpened():
-            print("Cannot access camera")
+            print("cannot access camera")
             exit()
 
         # Read a single frame
         ret, frame = self.camera.read()
         if not ret:
-            print("Failed to grab frame")
+            print("failed to grab frame")
             self.camera.release()
             exit()
 
@@ -40,7 +40,7 @@ class Camera:
 
         # Save the captured image
         cv2.imwrite(filename, frame)
-        print(f"Image saved as {filename}")
+        print(f"image saved as {filename}")
 
         # Release the camera
         self.camera.release()
@@ -54,4 +54,4 @@ class Camera:
         if os.path.exists(src_path):
             shutil.move(src_path, dest_path)
         else:
-            print(f"File {filename} does not exist in the source folder.")
+            print(f"{filename} does not exist")
