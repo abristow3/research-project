@@ -21,7 +21,7 @@ class Camera:
         if not os.path.exists(self.processed_images_folder):
             os.makedirs(self.processed_images_folder)
 
-    def take_photo(self) -> None:
+    def take_photo(self) -> str:
         # Wait for camera to warm up
         if not self.camera.isOpened():
             print("Cannot access camera")
@@ -36,13 +36,16 @@ class Camera:
 
         # Generate a timestamped filename
         filename = datetime.now().strftime("%Y%m%d_%H%M%S.jpg")
+        filename = f"{self.unprocessed_images_folder}/{filename}"
 
         # Save the captured image
-        cv2.imwrite(f'{self.unprocessed_images_folder}/{filename}', frame)
+        cv2.imwrite(filename, frame)
         print(f"Image saved as {filename}")
 
         # Release the camera
         self.camera.release()
+
+        return filename
 
     def move_processed_image(self, filename: str) -> None:
         src_path = os.path.join(self.unprocessed_images_folder, filename)
