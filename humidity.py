@@ -14,8 +14,8 @@ class TempHumidity:
         if humidity is not None and temperature is not None:
             # Create dict with data points
             sensor_data = {
-                'temperature': temperature,
-                'humidity': humidity
+                'temperature': round(temperature, 2),
+                'humidity': round(humidity, 2)
             }
 
             # print for logging
