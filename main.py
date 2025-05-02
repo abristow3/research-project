@@ -4,47 +4,79 @@ from Humidity import TempHumidity
 from Ph import Ph
 from DataHandler import DataHandler
 from YellowDetector import YellowDetector
-import os
 import time
+from HealthModel import HealthModel
 
-def load_model():
-    ...
 
+class MonitoringSystem:
+    def __init__(self, data_handler, yellow_detector, camera, moisture, temp_humidity, ph, health_model):
+        self.data_handler = data_handler
+        self.yellow_detector = yellow_detector
+        self.camera = camera
+        self.moisture = moisture
+        self.temp_humidity = temp_humidity
+        self.ph = ph
+        self.health_model = health_model
+
+    def monitor(self):
+        """Start monitoring the system, collecting data and detecting diseases."""
+        while True:
+            # Get sensor readings
+            temp_humid_reading = self.temp_humidity.get_reading()
+            moisture_reading = self.moisture.get_moisture_reading()
+            ph_reading = self.ph.get_ph_reading()
+
+            # Take photo
+            image_filename = self.camera.take_photo()
+
+            # Check image for yellowing
+            yellowing = 0
+            yellow_percentage = self.yellow_detector.detect_yellowing(f"unprocessed_images/{image_filename}")
+
+            # Determine if enough yellowing present
+            if yellow_percentage >= 20:
+                yellowing = 1
+
+            entry = self.data_handler.create_data_entry(
+                temperature=temp_humid_reading['temperature'],
+                moisture=moisture_reading,
+                humidity=temp_humid_reading['humidity'],
+                ph=ph_reading,
+                image_name=image_filename,
+                yellowing=yellowing
+            )
+
+            self.data_handler.write_data_entry(data=entry)
+            disease_detected = self.health_model.predict_disease(entry=entry)
+
+            if disease_detected:
+                print("DISEASE DETECTED")
+
+            # Sleep for 24 hours (86400 seconds)
+            time.sleep(86400)
+
+
+# Main execution
 if __name__ == '__main__':
+    # Instantiate the required components
     data_handler = DataHandler()
     yellow_detector = YellowDetector()
-
     camera = Camera()
     moisture = Moisture()
     temp_humidity = TempHumidity()
     ph = Ph()
+    health_model = HealthModel()
 
-    # TODO Load our ML Model
+    # Create the monitoring system
+    monitoring_system = MonitoringSystem(
+        data_handler=data_handler,
+        yellow_detector=yellow_detector,
+        camera=camera,
+        moisture=moisture,
+        temp_humidity=temp_humidity,
+        ph=ph,
+        health_model=health_model
+    )
 
-    while True:
-        # Get sensor readings
-        temp_humid_reading = temp_humidity.get_reading()
-        moisture_reading = moisture.get_moisture_reading()
-        ph_reading = ph.get_ph_reading()
-
-        # Take photo
-        image_filename = camera.take_photo()
-
-        # Check image for yellowing
-        yellowing = 0
-        yellow_percentage = yellow_detector.detect_yellowing(f"unprocessed_images/{image_filename}")
-
-        if yellow_percentage >= 20:
-            yellowing = 1
-
-        entry = data_handler.create_data_entry(temperature=temp_humid_reading['temperature'], moisture=moisture_reading,
-                                               humidity=temp_humid_reading['humidity'], ph=ph_reading,
-                                               image_name=image_filename, yellowing=yellowing)
-
-        data_handler.write_data_entry(data=entry)
-
-        # TODO if it was yellow, run a model on the data and test if it was due to envinromental factors or not
-
-
-        # Sleep 24 hours in seconds
-        time.sleep(86400)
+    # Start the monitoring process
+    monitoring_system.monitor()

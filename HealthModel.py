@@ -245,7 +245,7 @@ class HealthModel:
 # Main program execution
 if __name__ == '__main__':
     # Instantiate the HealthModel
-    health_model = HealthModel(num_records=10000)
+    health_model = HealthModel()
 
     optimal_entry = {
         'timestamp': datetime.now(),
