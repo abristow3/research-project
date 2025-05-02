@@ -1,15 +1,28 @@
-import time
-import picamera
+import cv2
+from datetime import datetime
 
-# Initialize the camera
-camera = picamera.PICamera()
+# Initialize the webcam (0 is usually the first USB camera)
+cam = cv2.VideoCapture(0)
 
-# Allow the camera to warm up
-time.sleep(2)
+# Wait for camera to warm up
+if not cam.isOpened():
+    print("Cannot access camera")
+    exit()
 
-# Capture a still image
-camera.capture('image.jpg')
-print("Image captured and saved as 'image.jpg'")
+# Read a single frame
+ret, frame = cam.read()
+if not ret:
+    print("Failed to grab frame")
+    cam.release()
+    exit()
+
+# Generate a timestamped filename
+filename = datetime.now().strftime("usb_photo_%Y%m%d_%H%M%S.jpg")
+
+# Save the captured image
+cv2.imwrite(filename, frame)
+print(f"Image saved as {filename}")
 
 # Release the camera
-camera.close()
+cam.release()
+

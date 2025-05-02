@@ -1,29 +1,24 @@
 import Adafruit_DHT
 import time
 
-# Set the sensor type and the GPIO pin connected to the sensor
-sensor = Adafruit_DHT.DHT22  # DHT22 sensor
-gpio_pin = 17  # GPIO pin number (change as necessary)
+# Sensor type and GPIO setup
+SENSOR = Adafruit_DHT.DHT22
+GPIO_PIN = 19  # GPIO27 is physical pin 35
 
+print("Reading DHT22 sensor on GPIO27 (Pin 35)...")
 
-def read_dht22():
-    # Try to get a valid reading from the sensor
-    humidity, temperature = Adafruit_DHT.read_retry(sensor, gpio_pin)
-
-    # Check if reading was successful
-    if humidity is not None and temperature is not None:
-        print(f"Temperature: {temperature:.1f}°C")
-        print(f"Humidity: {humidity:.1f}%")
-    else:
-        print("Failed to retrieve data from the sensor. Try again!")
-
-
-# Main loop
 try:
     while True:
-        print("\nReading from the DHT22 sensor...")
-        read_dht22()
-        time.sleep(2)  # Wait 2 seconds before reading again
+        humidity, temperature = Adafruit_DHT.read_retry(SENSOR, GPIO_PIN)
+        
+        if humidity is not None and temperature is not None:
+            print(f"Temp: {temperature:.1f}°C  |  Humidity: {humidity:.1f}%")
+        else:
+            print("Sensor read failed. Trying again...")
+
+        time.sleep(2)
 
 except KeyboardInterrupt:
-    print("\nProgram exited.")
+    print("\nStopped by user.")
+
+
