@@ -7,6 +7,9 @@ from YellowDetector import YellowDetector
 import os
 import time
 
+def load_model():
+    ...
+
 if __name__ == '__main__':
     data_handler = DataHandler()
     yellow_detector = YellowDetector()
