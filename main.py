@@ -4,7 +4,6 @@ from humidity import TempHumidity
 from ph import Ph
 from data_handler import DataHandler
 
-
 if __name__ == '__main__':
     data_handler = DataHandler()
     camera = Camera()
@@ -21,7 +20,8 @@ if __name__ == '__main__':
     image_filename = camera.take_photo()
 
     # TODO setup yellowing from image processing. Yellowing should be a 1 if present or 0 if not
-    data_handler.create_data_entry(temperature=temp_humid_reading['temperature'], moisture=moisture_reading,
-                                   humidity=temp_humid_reading['humidity'], ph=ph_reading, image_name=image_filename,
-                                   yellowing=1)
+    entry = data_handler.create_data_entry(temperature=temp_humid_reading['temperature'], moisture=moisture_reading,
+                                           humidity=temp_humid_reading['humidity'], ph=ph_reading,
+                                           image_name=image_filename, yellowing=1)
 
+    data_handler.write_data_entry(data=entry)
