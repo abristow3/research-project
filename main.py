@@ -1,8 +1,8 @@
-from camera import Camera
-from moisture import Moisture
-from humidity import TempHumidity
-from ph import Ph
-from data_handler import DataHandler
+from Camera import Camera
+from Moisture import Moisture
+from Humidity import TempHumidity
+from Ph import Ph
+from DataHandler import DataHandler
 from YellowDetector import YellowDetector
 import os
 
