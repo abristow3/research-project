@@ -14,7 +14,7 @@ if __name__ == '__main__':
     moisture_reading = moisture.get_moisture_reading()
     ph_reading = ph.get_ph_reading()
 
-    print("PH", ph)
+    print("PH", ph_reading)
 
     # Take photo
     camera.take_photo()
