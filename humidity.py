@@ -9,7 +9,7 @@ class TempHumidity:
         self.sensor = Adafruit_DHT.DHT22
         self.sensor_pin = 19  # GPIO19 is physical pin 35
 
-    def get_reading(self) -> dict[str, Any] | None:
+    def get_reading(self)->dict:
         humidity, temperature = Adafruit_DHT.read_retry(self.sensor, self.sensor_pin)
 
         if humidity is not None and temperature is not None:
@@ -24,4 +24,4 @@ class TempHumidity:
             return sensor_data
         else:
             print("Invalid data: Temperature or Humidity is None.")
-            return None
+            return {}
