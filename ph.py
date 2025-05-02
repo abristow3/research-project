@@ -8,6 +8,8 @@ class Ph:
         self.mosi_pin = 22  # SPI MOSI (Pin 15)
         self.cs_pin = 26  # SPI CS (Pin 37)
 
+        self.setup()
+
     def setup(self):
         # Setup GPIO
         GPIO.setmode(GPIO.BCM)
