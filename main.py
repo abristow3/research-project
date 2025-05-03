@@ -74,7 +74,14 @@ class MonitoringSystem:
                 print("DISEASE DETECTED")
                 self.turn_on_led()
 
+            # Release the camera after use
+            self.camera.release_camera()
+
+            # Sleep for the interval before repeating the process
             time.sleep(self.interval)
+
+            # Re-initialize the camera before the next photo
+            self.camera = Camera()
 
     def turn_on_led(self):
         """Turn on the red LED when disease is detected."""

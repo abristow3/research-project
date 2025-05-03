@@ -3,18 +3,34 @@ from datetime import datetime
 import os
 import shutil
 
+import cv2
+import os
+import shutil
+from datetime import datetime
+import time
+
 
 class Camera:
     def __init__(self):
         self.unprocessed_images_folder = "unprocessed_images"
         self.processed_images_folder = "processed_images"
 
-        # Initialize the webcam
+        # Initialize the webcam (attempt to use the default camera)
         self.camera = cv2.VideoCapture(0)
 
+        # Add delay to allow the camera to initialize
+        time.sleep(2)
+
+        # Ensure the folders exist
         self.setup()
 
+        # Check if the camera is opened successfully
+        if not self.camera.isOpened():
+            print("cannot access camera")
+            exit()
+
     def setup(self) -> None:
+        """Ensure image folders exist."""
         if not os.path.exists(self.unprocessed_images_folder):
             os.makedirs(self.unprocessed_images_folder)
 
@@ -22,11 +38,7 @@ class Camera:
             os.makedirs(self.processed_images_folder)
 
     def take_photo(self) -> str:
-        # Wait for camera to warm up
-        if not self.camera.isOpened():
-            print("cannot access camera")
-            exit()
-
+        """Capture a photo from the camera."""
         # Read a single frame
         ret, frame = self.camera.read()
         if not ret:
@@ -42,12 +54,10 @@ class Camera:
         cv2.imwrite(filename, frame)
         print(f"image saved as {filename}")
 
-        # Release the camera
-        self.camera.release()
-
         return filename
 
     def move_processed_image(self, filename: str) -> None:
+        """Move the processed image to the processed folder."""
         src_path = os.path.join(self.unprocessed_images_folder, filename)
         dest_path = os.path.join(self.processed_images_folder, filename)
 
@@ -55,3 +65,9 @@ class Camera:
             shutil.move(src_path, dest_path)
         else:
             print(f"{filename} does not exist")
+
+    def release_camera(self):
+        """Release the camera when done."""
+        if self.camera.isOpened():
+            self.camera.release()
+            print("Camera released.")
