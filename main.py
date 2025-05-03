@@ -57,6 +57,8 @@ class MonitoringSystem:
                 yellowing=yellowing
             )
 
+            print(f"ENTRY: {entry}")
+
             self.data_handler.write_data_entry(data=entry)
 
             entry = {
