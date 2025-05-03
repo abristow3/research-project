@@ -9,7 +9,7 @@ from HealthModel import HealthModel
 
 
 class MonitoringSystem:
-    def __init__(self, data_handler, yellow_detector, camera, moisture, temp_humidity, ph, health_model):
+    def __init__(self, data_handler, yellow_detector, camera, moisture, temp_humidity, ph, health_model, interval=86400):
         self.data_handler = data_handler
         self.yellow_detector = yellow_detector
         self.camera = camera
@@ -17,6 +17,7 @@ class MonitoringSystem:
         self.temp_humidity = temp_humidity
         self.ph = ph
         self.health_model = health_model
+        self.interval = interval
 
     def monitor(self):
         """Start monitoring the system, collecting data and detecting diseases."""
@@ -52,8 +53,7 @@ class MonitoringSystem:
             if disease_detected:
                 print("DISEASE DETECTED")
 
-            # Sleep for 24 hours (86400 seconds)
-            time.sleep(86400)
+            time.sleep(self.interval)
 
 
 # Main execution
@@ -67,6 +67,9 @@ if __name__ == '__main__':
     ph = Ph()
     health_model = HealthModel()
 
+    # Frequency in seconds the process will run
+    interval = 10
+
     # Create the monitoring system
     monitoring_system = MonitoringSystem(
         data_handler=data_handler,
@@ -75,7 +78,8 @@ if __name__ == '__main__':
         moisture=moisture,
         temp_humidity=temp_humidity,
         ph=ph,
-        health_model=health_model
+        health_model=health_model,
+        interval=interval
     )
 
     # Start the monitoring process
