@@ -30,7 +30,6 @@ class MonitoringSystem:
         GPIO.output(self.led_pin, GPIO.LOW)  # Start with LED off
 
     def monitor(self):
-        """Start monitoring the system, collecting data and detecting diseases."""
         while True:
             # Get sensor readings
             temp_humid_reading = self.temp_humidity.get_reading()
@@ -87,16 +86,14 @@ class MonitoringSystem:
             self.camera = Camera()
 
     def turn_on_led(self):
-        """Turn on the red LED when disease is detected."""
-        GPIO.output(self.led_pin, GPIO.HIGH)  # Turn on LED
+        GPIO.output(self.led_pin, GPIO.HIGH)
         print("LED ON")
         time.sleep(10)  # Keep the LED on for 10 seconds
-        GPIO.output(self.led_pin, GPIO.LOW)  # Turn off LED
+        GPIO.output(self.led_pin, GPIO.LOW)
 
 
 # Main execution
 if __name__ == '__main__':
-    # Instantiate the required components
     data_handler = DataHandler()
     yellow_detector = YellowDetector()
     camera = Camera()
@@ -123,5 +120,4 @@ if __name__ == '__main__':
         led_pin=led_pin
     )
 
-    # Start the monitoring process
     monitoring_system.monitor()
