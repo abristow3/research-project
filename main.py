@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from Camera import Camera
 from Moisture import Moisture
 from Humidity import TempHumidity
@@ -6,10 +8,12 @@ from DataHandler import DataHandler
 from YellowDetector import YellowDetector
 import time
 from HealthModel import HealthModel
+import RPi.GPIO as GPIO
 
 
 class MonitoringSystem:
-    def __init__(self, data_handler, yellow_detector, camera, moisture, temp_humidity, ph, health_model, interval=86400):
+    def __init__(self, data_handler, yellow_detector, camera, moisture, temp_humidity, ph, health_model, interval=86400,
+                 led_pin=17):
         self.data_handler = data_handler
         self.yellow_detector = yellow_detector
         self.camera = camera
@@ -18,6 +22,12 @@ class MonitoringSystem:
         self.ph = ph
         self.health_model = health_model
         self.interval = interval
+        self.led_pin = led_pin
+
+        # Setup GPIO mode and pin
+        GPIO.setmode(GPIO.BCM)
+        GPIO.setup(self.led_pin, GPIO.OUT)
+        GPIO.output(self.led_pin, GPIO.LOW)  # Start with LED off
 
     def monitor(self):
         """Start monitoring the system, collecting data and detecting diseases."""
@@ -48,12 +58,30 @@ class MonitoringSystem:
             )
 
             self.data_handler.write_data_entry(data=entry)
+
+            entry = {
+                'timestamp': datetime.now(),
+                'temperature': 22,
+                'humidity': 70,
+                'moisture': 1,
+                'ph': 7,
+                'yellowing': 1
+            }
+
             disease_detected = self.health_model.predict_disease(entry=entry)
 
             if disease_detected:
                 print("DISEASE DETECTED")
+                self.turn_on_led()
 
             time.sleep(self.interval)
+
+    def turn_on_led(self):
+        """Turn on the red LED when disease is detected."""
+        GPIO.output(self.led_pin, GPIO.HIGH)  # Turn on LED
+        print("LED ON")
+        time.sleep(10)  # Keep the LED on for 10 seconds
+        GPIO.output(self.led_pin, GPIO.LOW)  # Turn off LED
 
 
 # Main execution
@@ -70,6 +98,8 @@ if __name__ == '__main__':
     # Frequency in seconds the process will run
     interval = 10
 
+    led_pin = 6 # bcm6 (Pin 31)
+
     # Create the monitoring system
     monitoring_system = MonitoringSystem(
         data_handler=data_handler,
@@ -79,7 +109,8 @@ if __name__ == '__main__':
         temp_humidity=temp_humidity,
         ph=ph,
         health_model=health_model,
-        interval=interval
+        interval=interval,
+        led_pin=led_pin
     )
 
     # Start the monitoring process
