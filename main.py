@@ -61,14 +61,15 @@ class MonitoringSystem:
 
             self.data_handler.write_data_entry(data=entry)
 
-            entry = {
-                'timestamp': datetime.now(),
-                'temperature': 22,
-                'humidity': 70,
-                'moisture': 1,
-                'ph': 7,
-                'yellowing': 1
-            }
+            # Uncomment to test LED
+            # entry = {
+            #     'timestamp': datetime.now(),
+            #     'temperature': 22,
+            #     'humidity': 70,
+            #     'moisture': 1,
+            #     'ph': 7,
+            #     'yellowing': 1
+            # }
 
             disease_detected = self.health_model.predict_disease(entry=entry)
 

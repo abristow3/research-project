@@ -226,7 +226,7 @@ class HealthModel:
 
     def is_optimal_conditions(self, temp, humidity, moisture, ph):
         """Check if the environmental conditions are optimal (non-stressful)."""
-        # Define optimal conditions (e.g., reasonable ranges for healthy plant conditions)
+        # Optimal conditions (e.g., ranges for healthy plant conditions)
         optimal_temp_range = (20, 30)  # Temperature between 20°C and 30°C
         optimal_humidity_range = (50, 80)  # Humidity between 50% and 80%
         optimal_moisture = 1  # Moisture between 30% and 70%
