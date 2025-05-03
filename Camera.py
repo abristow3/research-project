@@ -30,7 +30,6 @@ class Camera:
             exit()
 
     def setup(self) -> None:
-        """Ensure image folders exist."""
         if not os.path.exists(self.unprocessed_images_folder):
             os.makedirs(self.unprocessed_images_folder)
 
@@ -38,7 +37,6 @@ class Camera:
             os.makedirs(self.processed_images_folder)
 
     def take_photo(self) -> str:
-        """Capture a photo from the camera."""
         # Read a single frame
         ret, frame = self.camera.read()
         if not ret:
@@ -57,7 +55,6 @@ class Camera:
         return filename
 
     def move_processed_image(self, filename: str) -> None:
-        """Move the processed image to the processed folder."""
         src_path = os.path.join(self.unprocessed_images_folder, filename)
         dest_path = os.path.join(self.processed_images_folder, filename)
 
@@ -67,7 +64,6 @@ class Camera:
             print(f"{filename} does not exist")
 
     def release_camera(self):
-        """Release the camera when done."""
         if self.camera.isOpened():
             self.camera.release()
             print("Camera released.")

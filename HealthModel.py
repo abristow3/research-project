@@ -41,7 +41,6 @@ class HealthModel:
             self.evaluate_model(X_test, y_test)
 
     def setup(self):
-        """Load the trained model from the file and set it as self.model."""
         try:
             self.model = joblib.load(self.model_file)
             print("Model loaded successfully.")
@@ -49,7 +48,6 @@ class HealthModel:
             print(f"Error loading model: {e}")
 
     def train_model(self, X_train, y_train):
-        """Train the XGBoost model and save it."""
         xgb_model = XGBClassifier(
             colsample_bytree=0.8,
             learning_rate=0.01,
@@ -79,7 +77,6 @@ class HealthModel:
         print(confusion_matrix(y_test, y_pred))
 
     def generate_seasonal_trends(self, days_from_start):
-        """Generate trends for temperature, humidity, and moisture based on seasons and time of day."""
         season = (days_from_start // 30) % 4  # Rough seasonal cycle based on 30-day months
         time_of_day = np.sin(2 * np.pi * (days_from_start % 24) / 24)  # Sine wave for daily temperature fluctuation
 
@@ -108,7 +105,6 @@ class HealthModel:
         return temp_base, humidity_base, moisture_class, ph_base
 
     def simulate_yellowing(self, temp, humidity, moisture, ph):
-        """Simulate leaf yellowing based on sensor readings."""
         yellowing_probability = 0
         if temp > 30:  # Heat stress
             yellowing_probability += 0.3
@@ -123,7 +119,6 @@ class HealthModel:
         return choices([0, 1], weights=[1 - yellowing_probability, yellowing_probability])[0]
 
     def generate_optimal_condition_data(self, num_points=100):
-        """Generate data points for optimal conditions where yellowing is detected."""
         data = []
         for i in range(num_points):
             # Extreme conditions that cause yellowing (optimal conditions for yellowing)
@@ -137,7 +132,6 @@ class HealthModel:
         return df
 
     def generate_non_optimal_condition_data(self, num_points=100):
-        """Generate data points for non-optimal conditions with yellowing."""
         data = []
         for i in range(num_points):
             # Non-optimal conditions (slightly adjusted features but yellowing occurs)
@@ -151,7 +145,6 @@ class HealthModel:
         return df
 
     def generate_data(self):
-        """Generate synthetic data with trends for the given number of records."""
         data = []
         current_date = self.start_date
         for record_id in range(self.num_records):
@@ -176,7 +169,6 @@ class HealthModel:
         return pd.DataFrame(data)
 
     def test_model(self, optimal_points=100, non_optimal_points=100):
-        """Generate optimal and non-optimal condition data for prediction and evaluate the model."""
         # Generate optimal and non-optimal condition data for prediction
         optimal_data = self.generate_optimal_condition_data(num_points=optimal_points)
         non_optimal_data = self.generate_non_optimal_condition_data(num_points=non_optimal_points)
@@ -204,7 +196,6 @@ class HealthModel:
         print(f"Correct Predictions for Non-Optimal Conditions: {correct_non_optimal_predictions}/{non_optimal_points}")
 
     def predict_disease(self, entry):
-        """Predict if the yellowing is due to disease, not environmental stress."""
         # Convert the entry dict into a pandas DataFrame for model prediction
         df = pd.DataFrame([entry])
 
@@ -225,7 +216,6 @@ class HealthModel:
         return 0  # No disease, either because the model predicts yellowing or because conditions are not optimal.
 
     def is_optimal_conditions(self, temp, humidity, moisture, ph):
-        """Check if the environmental conditions are optimal (non-stressful)."""
         # Optimal conditions (e.g., ranges for healthy plant conditions)
         optimal_temp_range = (20, 30)  # Temperature between 20°C and 30°C
         optimal_humidity_range = (50, 80)  # Humidity between 50% and 80%

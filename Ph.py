@@ -63,8 +63,7 @@ class Ph:
 
     @staticmethod
     def voltage_to_ph(voltage) -> float:
-        # Adding a calibration to formula since sensor is not calibrated
-        voltage_at_ph7 = 3.30  # Your actual voltage at pH 7.0
-        volts_per_ph = 0.18  # Adjust this based on real buffer testing
+        voltage_at_ph7 = 3.30
+        volts_per_ph = 0.18
         ph = 7.0 + (voltage_at_ph7 - voltage) / volts_per_ph
         return float(ph)
