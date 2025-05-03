@@ -42,7 +42,7 @@ class MonitoringSystem:
 
             # Check image for yellowing
             yellowing = 0
-            yellow_percentage = self.yellow_detector.detect_yellowing(f"unprocessed_images/{image_filename}")
+            yellow_percentage = self.yellow_detector.detect_yellowing(image_path=image_filename)
 
             # Determine if enough yellowing present
             if yellow_percentage >= 20:
