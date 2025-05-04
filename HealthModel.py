@@ -199,8 +199,10 @@ class HealthModel:
         # Convert the entry dict into a pandas DataFrame for model prediction
         df = pd.DataFrame([entry])
 
+        print(f"DF: {df}")
+
         # Drop the 'timestamp' and 'yellowing' columns for prediction
-        X_pred = df.drop(columns=['yellowing'])
+        X_pred = df.drop(columns=['timestamp', 'yellowing'])
 
         # Predict yellowing using the model
         predicted_yellowing = self.model.predict(X_pred)[0]  # Get the prediction for this entry
