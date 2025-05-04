@@ -200,7 +200,7 @@ class HealthModel:
         df = pd.DataFrame([entry])
 
         # Drop the 'timestamp' and 'yellowing' columns for prediction
-        X_pred = df.drop(columns=['timestamp', 'yellowing'])
+        X_pred = df.drop(columns=['yellowing'])
 
         # Predict yellowing using the model
         predicted_yellowing = self.model.predict(X_pred)[0]  # Get the prediction for this entry
