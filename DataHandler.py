@@ -33,17 +33,14 @@ class DataHandler:
 
         # Get current time in milliseconds
         milliseconds = int(now.timestamp() * 1000)
-        data = {
-            milliseconds:
-                {
-                    'ph': ph,
-                    'temperature': temperature,
-                    'soil_moisture': moisture,
-                    'humidity': humidity,
-                    'image_name': image_name,
-                    'yellowing': yellowing
+        data = {'timestamp': milliseconds,
+                'ph': ph,
+                'temperature': temperature,
+                'soil_moisture': moisture,
+                'humidity': humidity,
+                'image_name': image_name,
+                'yellowing': yellowing
                 }
-        }
 
         return data
 
