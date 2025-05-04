@@ -72,7 +72,7 @@ class MonitoringSystem:
 
             disease_detected = self.health_model.predict_disease(entry=entry)
 
-            if disease_detected:
+            if disease_detected or entry['yellowing']==1:
                 print("DISEASE DETECTED")
                 self.turn_on_led()
 
