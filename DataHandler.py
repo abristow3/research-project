@@ -36,7 +36,7 @@ class DataHandler:
         data = {'timestamp': milliseconds,
                 'ph': ph,
                 'temperature': temperature,
-                'soil_moisture': moisture,
+                'moisture': moisture,
                 'humidity': humidity,
                 'image_name': image_name,
                 'yellowing': yellowing
@@ -48,7 +48,7 @@ class DataHandler:
         timestamp = data['timestamp']
         ph =data['ph']
         temperature = data['temperature']
-        soil_moisture = data['soil_moisture']
+        soil_moisture = data['moisture']
         humidity = data['humidity']
         image_name = data['image_name']
         yellowing = data['yellowing']
