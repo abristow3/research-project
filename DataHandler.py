@@ -45,19 +45,19 @@ class DataHandler:
         return data
 
     def write_data_entry(self, data: dict) -> None:
-        for timestamp, entry in data.items():
-            ph = entry['ph']
-            temperature = entry['temperature']
-            soil_moisture = entry['soil_moisture']
-            humidity = entry['humidity']
-            image_name = entry['image_name']
-            yellowing = entry['yellowing']
+        timestamp = data['timestamp']
+        ph =data['ph']
+        temperature = data['temperature']
+        soil_moisture = data['soil_moisture']
+        humidity = data['humidity']
+        image_name = data['image_name']
+        yellowing = data['yellowing']
 
-            # append csv
-            with open(f"{self.data_folder}/{self.data_file_name}", mode='a', newline='') as file:
-                writer = csv.writer(file)
-                # write the data as a new row
-                writer.writerow([
-                    timestamp, ph, temperature, soil_moisture, humidity, yellowing, image_name
-                ])
-            print(f"data written for timestamp {timestamp}")
+        # append csv
+        with open(f"{self.data_folder}/{self.data_file_name}", mode='a', newline='') as file:
+            writer = csv.writer(file)
+            # write the data as a new row
+            writer.writerow([
+                timestamp, ph, temperature, soil_moisture, humidity, yellowing, image_name
+            ])
+        print(f"data written for timestamp {timestamp}")
